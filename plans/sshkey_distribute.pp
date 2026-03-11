@@ -1,3 +1,5 @@
+# https://help.puppet.com/bolt/current/topics/tig_stack.htm
+
 # This is the structure of a simple plan. To learn more about writing
 # Puppet plans, see the documentation: http://pup.pt/bolt-puppet-plans
 
@@ -23,9 +25,30 @@ plan d::sshkey_distribute (
   out::message( 'foo' )
   out::message( [$targets].flatten )
 
-  $rs = run_script( 'd/sshkeys_distribute.sh', 'localhost', { arguments => [$remote_targets].flatten } )
+  $sshkey_raw = run_script( 'd/sshkeys_distribute.sh', 'localhost', { arguments => [$remote_targets].flatten } )
 #  $pubkey = file::read( 'workshop_key.pub')
-  out::message( $rs )
-#  out::message( $pubkey )
-  return $rs
+  out::message( "sshkey in raw")
+  out::message( $sshkey_raw )
+  out::message( "pubkey")
+  $pubkey = $sshkey_raw.first.value['stdout']
+  out::message( $pubkey )
+
+  $apply_ResultSet = apply( $remote_targets, {'_description' => 'ssh-key Installation per Puppet-Manifest'} ) {
+    $ssh_key_array = split( $pubkey, / +/)
+    file { '/tmp/marcus-war-hier':
+      ensure => file,
+      content => $pubkey,
+    }
+    ssh_authorized_key {$ssh_key_array[2]:
+      ensure => present,
+      user   => 'root',
+      key    => $ssh_key_array[1],
+      type   => $ssh_key_array[0],
+    }
+  }
+
+  out::message("apply ResultSet")
+  out::message($apply_ResultSet)
+
+  return 0
 }

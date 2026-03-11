@@ -1,3 +1,4 @@
+# https://help.puppet.com/bolt/current/topics/tig_stack.htm
 
 key=workshop_key
 pub=${key}.pub
@@ -5,7 +6,8 @@ domain=mpopub1.betadots.training
 
 generate_key(){
   rm -f $key $pub || true
-  ssh-keygen -t ed25519 -f $key -N "" -C "boltdemo@gaia" >/dev/null
+  ssh-keygen -t ed25519 -f $key -N "" -C "boltdemo@gaia" >/dev/null 2>&1
+  cat $pub
 }
 
 copy_key(){
@@ -28,11 +30,11 @@ debug(){
 }
 
 set -x
-pwd
+#pwd
 
 generate_key
 #copy_key "$@"
-echo "debug params"
-echo "$@"
+#echo "debug params"
+#echo "$@"
 #echo "env"
 #env
