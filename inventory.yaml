@@ -1,0 +1,66 @@
+---
+groups:
+- name: students
+  targets:
+  - uri: webserva.mpopub1.betadots.training
+    name: webserva
+    vars:
+      role: webserver
+      stage: prod
+  - uri: webservb.mpopub1.betadots.training
+    name: webservb
+    vars:
+      role: webserver
+      stage: prod
+- name: all_but_puppet
+  targets:
+  - uri: foreman.mpopub1.betadots.training
+    name: foreman
+    vars:
+      role: foreman
+      stage: prod
+  - uri: webserva.mpopub1.betadots.training
+    name: webserva
+    vars:
+      role: webserver
+      stage: prod
+  - uri: webservb.mpopub1.betadots.training
+    name: webservb
+    vars:
+      role: webserver
+      stage: prod
+targets:
+- uri: puppet.mpopub1.betadots.training
+  name: puppet
+  vars:
+    role: puppet
+    stage: prod
+- uri: foreman.mpopub1.betadots.training
+  name: foreman
+  vars:
+    role: foreman
+    stage: prod
+- uri: webserva.mpopub1.betadots.training
+  name: webserva
+  vars:
+    role: webserver
+    stage: prod
+- uri: webservb.mpopub1.betadots.training
+  name: webservb
+  vars:
+    role: webserver
+    stage: prod
+config:
+  transport: ssh
+  ssh:
+    user: root
+    host-key-check: false
+    native-ssh: true
+    private-key: "/home/betadots/.ssh/id_ed25519_hetzner.com"
+    connect-timeout: 60
+features:
+- puppet-agent
+vars:
+  domain: betadots.training
+  public_subdomain: mpopub1
+  internal_subdomain: mpopub1.int
