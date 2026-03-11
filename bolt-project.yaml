@@ -1,2 +1,3 @@
 name: d
-
+modules:
+  - puppetlabs/sshkeys_core

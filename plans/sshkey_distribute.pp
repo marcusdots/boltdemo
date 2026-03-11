@@ -10,6 +10,10 @@ plan d::sshkey_distribute (
   TargetSpec $targets = "localhost",
   $remote_targets = get_targets( 'all' ) - get_targets('localhost'),
 ) {
+  $remote_fqdn = get_targets('all').map |$t| { $t.uri}
+#  $remote_fqdn = get_targets('all').name
+  out::message("remote fqdns")
+  out::message( $remote_fqdn )
   out::message("Hello from d::sshkey_distribute")
 #  out::message("# targets=")
 #  out::message( run_command('hostname -f', $targets) )
