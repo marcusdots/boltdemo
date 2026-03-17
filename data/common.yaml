@@ -1,0 +1,3 @@
+selfid: common.yaml
+hiera::i: 'automatic data binding'
+
