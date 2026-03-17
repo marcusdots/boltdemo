@@ -2,3 +2,6 @@ name: d
 modules:
   - puppetlabs/sshkeys_core
   - puppetlabs/stdlib
+  - puppet/nginx
+  - puppetlabs/concat
+  - puppetlabs/peadm
